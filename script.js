@@ -1,9 +1,30 @@
-let watches = JSON.parse(localStorage.getItem('dami_watches')) || [];
+const BIN_ID = "69f85b05856a682189a3d205";
+const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6dlB25klBDRuCXHN08gwnZ5E.";
+const URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+
+let watches = []; 
+
 let cart = [];
 
 // --- UPDATE THESE TWO LINES ---
 const phoneNumber = "2347074428929"; 
 const adminPass = "Dami2024";      
+
+// FETCH FROM CLOUD ON START
+async function loadWatches() {
+    try {
+        const response = await fetch(URL + '/latest', {
+            headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await response.json();
+        // This line pulls the watches from your Bin
+        watches = data.record.watches || [];
+        renderWatches();
+    } catch (err) {
+        console.error("Cloud load failed:", err);
+    }
+}
+
 
 function toggleAdmin() {
     const adminSection = document.getElementById('admin-panel');
@@ -106,4 +127,4 @@ function checkoutToWhatsApp() {
     window.location.href = whatsappURL;
 }
 
-renderWatches();
+loadWatches();
