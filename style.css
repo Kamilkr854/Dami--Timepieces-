@@ -1,74 +1,133 @@
-:root {
-    --bg: #ffffff;
-    --text: #1a1a1a;
-    --gold: #C5A059;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text);
     font-family: 'Montserrat', sans-serif;
-    margin: 0;
+    background-color: #f9f9f9;
+    color: #1a1a1a;
+    padding-bottom: 80px; /* Space for WhatsApp button */
+}
+
+header {
     text-align: center;
-}
-
-.hidden { display: none !important; }
-
-.main-nav {
-    padding: 20px;
+    padding: 40px 20px;
+    background: #fff;
     border-bottom: 1px solid #eee;
+}
+
+h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.5rem;
+    letter-spacing: 5px;
+}
+
+.tagline {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Admin Styling */
+#admin-panel {
+    padding: 20px;
+    background: #fff;
+    min-height: 100vh;
+}
+
+.admin-form {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo { font-family: 'Cinzel', serif; letter-spacing: 4px; font-weight: bold; }
-
-.script-font { font-family: 'Great Vibes', cursive; color: var(--gold); font-size: 4rem; margin: 0; }
-
-.clean-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    flex-direction: column;
     gap: 15px;
-    padding: 15px;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
-.watch-card { margin-bottom: 20px; }
+input, select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 15px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.watch-card {
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
 
 .watch-card img {
     width: 100%;
     height: 150px;
-    object-fit: contain;
-    background: #f9f9f9;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
 
-.add-to-cart-small {
-    background: var(--gold);
-    color: white;
-    border: none;
-    padding: 8px;
-    font-size: 0.7rem;
-    cursor: pointer;
+.watch-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.price {
+    color: #d4af37; /* Gold color */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Checkout Bar */
+.checkout-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
 }
 
 .whatsapp-btn {
-    position: fixed;
-    bottom: 0;
-    left: 0;
     width: 100%;
-    background: #25D366;
-    color: white;
-    padding: 20px;
-    border: none;
-    font-weight: bold;
+    background: #25D366; /* WhatsApp Green */
+    font-size: 1rem;
 }
 
-.admin-container { padding: 20px; background: #f4f4f4; color: #000; }
-input { display: block; width: 90%; margin: 10px auto; padding: 10px; border: 1px solid #ccc; }
-.post-btn { background: var(--text); color: white; padding: 10px 20px; border: none; cursor: pointer; }
+.admin-btn {
+    background: transparent;
+    color: #888;
+    font-size: 0.7rem;
+    margin-top: 10px;
+    border: 1px solid #eee;
+}
 
-.admin-form input, .admin-form button {
-    display: block; /* Puts each box on its own line */
-    width: 100%;
-    margin-bottom: 10px;
+.delete-btn {
+    margin-top: 10px;
+    padding: 5px;
+    font-size: 0.7rem;
 }
