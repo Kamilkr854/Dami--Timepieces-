@@ -1,0 +1,68 @@
+:root {
+    --bg: #ffffff;
+    --text: #1a1a1a;
+    --gold: #C5A059;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    text-align: center;
+}
+
+.hidden { display: none !important; }
+
+.main-nav {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo { font-family: 'Cinzel', serif; letter-spacing: 4px; font-weight: bold; }
+
+.script-font { font-family: 'Great Vibes', cursive; color: var(--gold); font-size: 4rem; margin: 0; }
+
+.clean-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    padding: 15px;
+}
+
+.watch-card { margin-bottom: 20px; }
+
+.watch-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    background: #f9f9f9;
+}
+
+.add-to-cart-small {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+
+.whatsapp-btn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #25D366;
+    color: white;
+    padding: 20px;
+    border: none;
+    font-weight: bold;
+}
+
+.admin-container { padding: 20px; background: #f4f4f4; color: #000; }
+input { display: block; width: 90%; margin: 10px auto; padding: 10px; border: 1px solid #ccc; }
+.post-btn { background: var(--text); color: white; padding: 10px 20px; border: none; cursor: pointer; }

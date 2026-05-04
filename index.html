@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dami & Co. | Luxury Timepieces</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <section id="storefront">
+        <header class="main-nav">
+            <div class="logo">DAMI & CO.</div>
+            <button onclick="toggleAdmin()" class="admin-btn-lock">Admin</button>
+        </header>
+
+        <section class="hero">
+            <h2 class="script-font">New!</h2>
+            <h3 class="hero-sub">AUTUMN / WINTER</h3>
+            <p class="hero-desc">Experience the latest in precision engineering.</p>
+            <img src="https://via.placeholder.com/400x300/ffffff/C5A059?text=Featured+Watch" class="hero-img">
+        </section>
+
+        <main>
+            <h2 class="section-title">THE ESSENTIAL COLLECTION</h2>
+            <div id="watch-grid" class="clean-grid"></div>
+        </main>
+
+        <div class="cart-footer">
+            <button onclick="checkoutToWhatsApp()" class="whatsapp-btn">CHECKOUT VIA WHATSAPP</button>
+        </div>
+    </section>
+
+    <section id="admin-panel" class="hidden">
+        <header class="admin-header">
+            <h2>ADMIN DASHBOARD</h2>
+            <button onclick="toggleAdmin()" class="back-btn">← BACK TO STORE</button>
+        </header>
+        
+        <div class="admin-container">
+            <div class="admin-form">
+                <h3>POST NEW TIMEPIECE</h3>
+                <input type="text" id="watchCategory" placeholder="Category (e.g. Sport, Luxury)">
+                <input type="text" id="watchName" placeholder="Watch Model Name">
+                <input type="number" id="watchPrice" placeholder="Price (₦)">
+                <input type="text" id="watchImage" placeholder="Paste Direct Image Link (.jpg/.png)">
+                <button onclick="saveProduct()" class="post-btn">SUBMIT TO INVENTORY</button>
+            </div>
+
+            <div class="inventory-section">
+                <h3>CURRENT INVENTORY</h3>
+                <div id="admin-list"></div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
