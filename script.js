@@ -105,7 +105,7 @@ function renderWatches() {
     if (!grid) return;
     grid.innerHTML = "";
 
-    // Check if we are currently in Admin Mode
+    // Check if admin is currently logged in
     const isAdmin = !document.getElementById('admin-panel').classList.contains('hidden');
 
     watches.forEach((watch, index) => {
@@ -117,11 +117,12 @@ function renderWatches() {
                 
                 ${!isAdmin ? `<button onclick="addToCart(${index})">Add to Cart</button>` : ''}
                 
-                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: #ff4444; margin-top: 10px;">Delete Item</button>` : ''}
+                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: red; margin-top: 10px;">Delete Item</button>` : ''}
             </div>
         `;
     });
 }
+
 
 
 function toggleAdmin() {
