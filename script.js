@@ -105,24 +105,23 @@ function renderWatches() {
     if (!grid) return;
     grid.innerHTML = "";
 
-    // Check if admin is currently logged in
+    // This checks if the Admin Panel is visible
     const isAdmin = !document.getElementById('admin-panel').classList.contains('hidden');
 
     watches.forEach((watch, index) => {
         grid.innerHTML += `
             <div class="watch-card">
-                <img src="${watch.image}" onerror="this.src='https://via.placeholder.com/150?text=Watch+Image'">
+                <img src="${watch.image}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
                 <h3>${watch.name}</h3>
                 <p class="price">₦${watch.price.toLocaleString()}</p>
                 
                 ${!isAdmin ? `<button onclick="addToCart(${index})">Add to Cart</button>` : ''}
                 
-                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: red; margin-top: 10px;">Delete Item</button>` : ''}
+                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: #ff4444; color: white; margin-top: 10px; border: none; padding: 10px; border-radius: 5px; width: 100%;">Delete Item</button>` : ''}
             </div>
         `;
     });
 }
-
 
 
 function toggleAdmin() {
