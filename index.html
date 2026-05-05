@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,22 +12,24 @@
     <header>
         <h1>DAMI & CO.</h1>
         <p class="tagline">CURATED WATCHES</p>
-        <button class="admin-btn" onclick="toggleAdmin()">Admin Portal</button>
+        <button class="admin-btn-trigger" onclick="toggleAdmin()">Admin Portal</button>
     </header>
 
     <section id="admin-panel" class="hidden">
-        <h2>Inventory Management</h2>
-        <div class="admin-form">
-            <input type="text" id="watchName" placeholder="Watch Name (e.g. G-Shock GA-2100)">
-            <input type="number" id="watchPrice" placeholder="Price (Naira)">
-            <input type="text" id="watchImage" placeholder="Direct Image Link (from ImgBB)">
-            <select id="watchCategory">
-                <option value="G-Shock">G-Shock</option>
-                <option value="Luxury">Luxury</option>
-                <option value="Sport">Sport</option>
-            </select>
-            <button onclick="saveProduct()">Submit to Cloud</button>
-            <button class="back-btn" onclick="toggleAdmin()">Back to Store</button>
+        <div class="admin-container">
+            <h2>Inventory Management</h2>
+            <div class="admin-form">
+                <input type="text" id="watchName" placeholder="Watch Name">
+                <input type="number" id="watchPrice" placeholder="Price (Naira)">
+                <input type="text" id="watchImage" placeholder="Direct Image Link (ImgBB)">
+                <select id="watchCategory">
+                    <option value="G-Shock">G-Shock</option>
+                    <option value="Luxury">Luxury</option>
+                    <option value="Sport">Sport</option>
+                </select>
+                <button onclick="saveProduct()" class="save-btn">Submit to Cloud</button>
+                <button class="back-btn" onclick="toggleAdmin()">Back to Store</button>
+            </div>
         </div>
     </section>
 
@@ -45,4 +47,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-
