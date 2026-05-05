@@ -69,6 +69,35 @@ async function saveProduct() {
     }
 }
 
+async function deleteProduct(index) {
+    if (!confirm("Are you sure you want to delete this watch from the cloud?")) return;
+
+    // Remove from local list
+    watches.splice(index, 1);
+
+    try {
+        const response = await fetch(URL, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY,
+                "X-Bin-Versioning": "false"
+            },
+            body: JSON.stringify({ watches: watches }) // Send the updated list
+        });
+
+        if (response.ok) {
+            alert("Watch deleted successfully!");
+            renderWatches();
+        } else {
+            alert("Delete failed on cloud.");
+        }
+    } catch (err) {
+        alert("Network error while deleting.");
+    }
+    }
+
+
 // --- 3. UI LOGIC ---
 
 function renderWatches() {
@@ -76,17 +105,24 @@ function renderWatches() {
     if (!grid) return;
     grid.innerHTML = "";
 
+    // Check if we are currently in Admin Mode
+    const isAdmin = !document.getElementById('admin-panel').classList.contains('hidden');
+
     watches.forEach((watch, index) => {
         grid.innerHTML += `
             <div class="watch-card">
                 <img src="${watch.image}" onerror="this.src='https://via.placeholder.com/150?text=Watch+Image'">
                 <h3>${watch.name}</h3>
                 <p class="price">₦${watch.price.toLocaleString()}</p>
-                <button onclick="addToCart(${index})">Add to Cart</button>
+                
+                ${!isAdmin ? `<button onclick="addToCart(${index})">Add to Cart</button>` : ''}
+                
+                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: #ff4444; margin-top: 10px;">Delete Item</button>` : ''}
             </div>
         `;
     });
 }
+
 
 function toggleAdmin() {
     const adminPanel = document.getElementById('admin-panel');
@@ -97,14 +133,17 @@ function toggleAdmin() {
         if (pass === adminPass) {
             adminPanel.classList.remove('hidden');
             storefront.classList.add('hidden');
+            renderWatches(); // Refresh to show delete buttons
         } else {
             alert("Wrong Password");
         }
     } else {
         adminPanel.classList.add('hidden');
         storefront.classList.remove('hidden');
+        renderWatches(); // Refresh to hide delete buttons
     }
 }
+
 
 // --- 4. CART & WHATSAPP ---
 
