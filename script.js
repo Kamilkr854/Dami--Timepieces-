@@ -1,127 +1,107 @@
-const BIN_ID = "69f85b05856a682189a3d205";
-const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6d1B25klBDuCXHN08gwnZ5E";
+// --- 1. CONFIGURATION ---
+const BIN_ID = "69f97aea36566621a8277050";
+const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6dlB25klBDRuCXHN08gwnZ5E."; // Removed period
 const URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
-
-const phoneNumber = "2347074428929"; 
+const phoneNumber = "2347074428929";
 const adminPass = "Dami2024";
 
 let watches = [];
 let cart = [];
 
-// --- 2. CLOUD DATA ENGINE ---
+// --- 2. CLOUD ENGINE ---
 
-// FETCH watches from cloud when site opens
 async function loadWatches() {
     try {
-        const response = await fetch(URL + '/latest', {
+        const response = await fetch(`${URL}/latest`, {
             headers: { "X-Master-Key": API_KEY }
         });
         const data = await response.json();
-        // Extract watches from the JSONBin record structure
+        // Correctly target the 'watches' array inside the record
         watches = data.record.watches || [];
         renderWatches();
     } catch (err) {
-        console.error("Cloud load failed:", err);
+        console.error("Load failed:", err);
     }
 }
 
-// SAVE watch to cloud
 async function saveProduct() {
-    const category = document.getElementById('watchCategory').value || "General";
     const name = document.getElementById('watchName').value;
     const price = document.getElementById('watchPrice').value;
     const image = document.getElementById('watchImage').value;
+    const category = document.getElementById('watchCategory').value;
 
-    if(!name || !price || !image) return alert("Please fill all fields!");
+    if (!name || !price || !image) return alert("Please fill all fields!");
 
-    // Add to the local list
-    watches.push({ category, name, price: parseInt(price), image });
+    // Create a new list including the new watch
+    const updatedList = [...watches, { 
+        name, 
+        price: parseInt(price), 
+        image, 
+        category 
+    }];
 
-    // Sync the entire list to the cloud
     try {
         const response = await fetch(URL, {
             method: 'PUT',
             headers: {
                 "Content-Type": "application/json",
-                "X-Master-Key": API_KEY
+                "X-Master-Key": API_KEY,
+                "X-Bin-Versioning": "false"
             },
-            body: JSON.stringify({ watches: watches })
+            body: JSON.stringify({ watches: updatedList })
         });
 
-        if(response.ok) {
-            alert("Success! Watch added to cloud.");
+        if (response.ok) {
+            alert("Watch successfully uploaded to Dami & Co. Cloud!");
+            watches = updatedList;
+            renderWatches();
+            // Clear inputs
             document.getElementById('watchName').value = "";
             document.getElementById('watchPrice').value = "";
             document.getElementById('watchImage').value = "";
-            renderWatches();
+        } else {
+            const errorData = await response.json();
+            alert("Cloud Error: " + errorData.message);
         }
     } catch (err) {
-        alert("Cloud save failed. Check internet.");
+        alert("Network error. Please try again.");
     }
 }
 
-// DELETE watch from cloud
-async function deleteProduct(index) {
-    if(confirm("Are you sure you want to delete this watch?")) {
-        watches.splice(index, 1);
-        await fetch(URL, {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-                "X-Master-Key": API_KEY
-            },
-            body: JSON.stringify({ watches: watches })
-        });
-        renderWatches();
-    }
-}
-
-// --- 3. UI & DISPLAY LOGIC ---
+// --- 3. UI LOGIC ---
 
 function renderWatches() {
     const grid = document.getElementById('watchGrid');
-    if(!grid) return;
+    if (!grid) return;
     grid.innerHTML = "";
 
     watches.forEach((watch, index) => {
         grid.innerHTML += `
             <div class="watch-card">
-                <img src="${watch.image}" alt="${watch.name}" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                <img src="${watch.image}" onerror="this.src='https://via.placeholder.com/150?text=Watch+Image'">
                 <h3>${watch.name}</h3>
-                <p>Category: ${watch.category}</p>
                 <p class="price">₦${watch.price.toLocaleString()}</p>
                 <button onclick="addToCart(${index})">Add to Cart</button>
-                <button class="admin-only delete-btn" onclick="deleteProduct(${index})" style="display:none; background:red;">Delete</button>
             </div>
         `;
     });
-    
-    // If admin is currently logged in, show delete buttons
-    if(!document.getElementById('admin-panel').classList.contains('hidden')) {
-        showAdminControls();
-    }
-}
-
-function showAdminControls() {
-    document.querySelectorAll('.admin-only').forEach(btn => btn.style.display = 'block');
 }
 
 function toggleAdmin() {
-    const adminSection = document.getElementById('admin-panel');
+    const adminPanel = document.getElementById('admin-panel');
     const storefront = document.getElementById('storefront');
 
-    if (adminSection.classList.contains('hidden')) {
-        const password = prompt("Enter Admin Password:");
-        if (password === adminPass) {
-            adminSection.classList.remove('hidden');
+    if (adminPanel.classList.contains('hidden')) {
+        const pass = prompt("Admin Password:");
+        if (pass === adminPass) {
+            adminPanel.classList.remove('hidden');
             storefront.classList.add('hidden');
-            renderWatches();
         } else {
-            alert("Access Denied.");
+            alert("Wrong Password");
         }
     } else {
-        adminSection.classList.add('hidden');
+        adminPanel.classList.add('hidden');
         storefront.classList.remove('hidden');
     }
 }
@@ -130,26 +110,23 @@ function toggleAdmin() {
 
 function addToCart(index) {
     cart.push(watches[index]);
-    alert(`${watches[index].name} added to cart!`);
+    alert("Added to cart!");
 }
 
 function checkout() {
-    if (cart.length === 0) return alert("Your cart is empty!");
-
-    let text = "Hello Dami & Co, I want to order:\n\n";
+    if (cart.length === 0) return alert("Cart is empty!");
+    
+    let message = "Hello Dami & Co., I want to buy:\n\n";
     let total = 0;
-
-    cart.forEach((item, index) => {
-        text += `${index + 1}. ${item.name} - ₦${item.price.toLocaleString()}\n`;
+    
+    cart.forEach((item, i) => {
+        message += `${i+1}. ${item.name} - ₦${item.price.toLocaleString()}\n`;
         total += item.price;
     });
-
-    text += `\n*Total: ₦${total.toLocaleString()}*`;
-
-    const whatsappURL = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(text)}`;
-    window.location.href = whatsappURL;
+    
+    message += `\nTotal: ₦${total.toLocaleString()}`;
+    window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 }
 
-// --- 5. INITIALIZE ---
-loadWatches(); 
-                     
+// Start the app
+loadWatches();
