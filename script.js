@@ -1,6 +1,6 @@
 // --- 1. CONFIGURATION ---
-const BIN_ID = "69f97aea36566621a8277050";
-const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6dlB25klBDRuCXHN08gwnZ5E."; // Removed period
+const BIN_ID = "69f85b05856a682189a3d205";
+const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6d1B25klBDuCXHN08gwnZ5E.";
 const URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 const phoneNumber = "2347074428929";
@@ -9,7 +9,7 @@ const adminPass = "Dami2024";
 let watches = [];
 let cart = [];
 
-// --- 2. CLOUD ENGINE ---
+// --- 2. CLOUD ENGINE (Load, Save, Delete) ---
 
 async function loadWatches() {
     try {
@@ -17,11 +17,10 @@ async function loadWatches() {
             headers: { "X-Master-Key": API_KEY }
         });
         const data = await response.json();
-        // Correctly target the 'watches' array inside the record
         watches = data.record.watches || [];
         renderWatches();
     } catch (err) {
-        console.error("Load failed:", err);
+        console.error("Cloud load failed:", err);
     }
 }
 
@@ -33,7 +32,6 @@ async function saveProduct() {
 
     if (!name || !price || !image) return alert("Please fill all fields!");
 
-    // Create a new list including the new watch
     const updatedList = [...watches, { 
         name, 
         price: parseInt(price), 
@@ -53,26 +51,21 @@ async function saveProduct() {
         });
 
         if (response.ok) {
-            alert("Watch successfully uploaded to Dami & Co. Cloud!");
+            alert("Watch added to Cloud!");
             watches = updatedList;
             renderWatches();
-            // Clear inputs
             document.getElementById('watchName').value = "";
             document.getElementById('watchPrice').value = "";
             document.getElementById('watchImage').value = "";
-        } else {
-            const errorData = await response.json();
-            alert("Cloud Error: " + errorData.message);
         }
     } catch (err) {
-        alert("Network error. Please try again.");
+        alert("Save failed. Check network.");
     }
 }
 
 async function deleteProduct(index) {
-    if (!confirm("Are you sure you want to delete this watch from the cloud?")) return;
+    if (!confirm("Are you sure you want to delete this watch?")) return;
 
-    // Remove from local list
     watches.splice(index, 1);
 
     try {
@@ -83,28 +76,25 @@ async function deleteProduct(index) {
                 "X-Master-Key": API_KEY,
                 "X-Bin-Versioning": "false"
             },
-            body: JSON.stringify({ watches: watches }) // Send the updated list
+            body: JSON.stringify({ watches: watches })
         });
 
         if (response.ok) {
-            alert("Watch deleted successfully!");
+            alert("Deleted successfully!");
             renderWatches();
-        } else {
-            alert("Delete failed on cloud.");
         }
     } catch (err) {
-        alert("Network error while deleting.");
+        alert("Delete failed.");
     }
-    }
+}
 
-// --- 3. UI LOGIC ---
+// --- 3. UI & ADMIN LOGIC ---
 
 function renderWatches() {
     const grid = document.getElementById('watchGrid');
     if (!grid) return;
     grid.innerHTML = "";
 
-    // This checks if the Admin Panel is visible
     const isAdmin = !document.getElementById('admin-panel').classList.contains('hidden');
 
     watches.forEach((watch, index) => {
@@ -116,35 +106,33 @@ function renderWatches() {
                 
                 ${!isAdmin ? `<button onclick="addToCart(${index})">Add to Cart</button>` : ''}
                 
-                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: #ff4444; color: white; margin-top: 10px; border: none; padding: 10px; border-radius: 5px; width: 100%;">Delete Item</button>` : ''}
+                ${isAdmin ? `<button onclick="deleteProduct(${index})" style="background: #ff4444; color: white; margin-top: 10px; border: none; padding: 10px; width: 100%; border-radius: 5px; font-weight: bold;">Delete Item</button>` : ''}
             </div>
         `;
     });
 }
 
 function toggleAdmin() {
-    const adminSection = document.getElementById('admin-panel');
+    const adminPanel = document.getElementById('admin-panel');
     const storefront = document.getElementById('storefront');
 
-    if (adminSection.classList.contains('hidden')) {
-        const password = prompt("Enter Admin Password:");
-        if (password === adminPass) {
-            adminSection.classList.remove('hidden');
+    if (adminPanel.classList.contains('hidden')) {
+        const pass = prompt("Admin Password:");
+        if (pass === adminPass) {
+            adminPanel.classList.remove('hidden');
             storefront.classList.add('hidden');
-            // THIS LINE IS THE KEY: It forces the screen to redraw with Delete buttons
-            renderWatches(); 
+            renderWatches(); // Refresh to show Delete buttons
         } else {
-            alert("Access Denied.");
+            alert("Wrong Password");
         }
     } else {
-        adminSection.classList.add('hidden');
+        adminPanel.classList.add('hidden');
         storefront.classList.remove('hidden');
-        // Redraw to remove Delete buttons for security
-        renderWatches(); 
+        renderWatches(); // Refresh to hide Delete buttons
     }
 }
 
-// --- 4. CART & WHATSAPP ---
+// --- 4. CART & CHECKOUT ---
 
 function addToCart(index) {
     cart.push(watches[index]);
@@ -166,5 +154,5 @@ function checkout() {
     window.location.href = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 }
 
-// Start the app
+// Start the application
 loadWatches();
