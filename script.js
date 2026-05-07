@@ -1,4 +1,4 @@
-const BIN_ID = "69f85b05856a682189a3d205";
+const BIN_ID = "69fcebbe250b1311c31ad406";
 const API_KEY = "$2a$10$4TKgbm8GW1Hvl/ZKolicOePBDpIBCjFOGZKGOdiwzMT/9izxWlHLK";
 const URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 const phoneNumber = "2347074428929";
