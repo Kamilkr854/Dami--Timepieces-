@@ -1,6 +1,6 @@
 // --- 1. CONFIGURATION ---
-const BIN_ID = "69f85b05856a682189a3d205";
-const API_KEY = "$2a$10$jtiYE5Bo5i8dQS6UcZRoIuPoKr9T6d1B25klBDuCXHN08gwnZ5E.";
+const BIN_ID = "69f97aea36566621a8277050";
+const API_KEY = "$2a$10$4TKgbm8GW1Hvl/ZKolicOePBDpIBCjFOGZKGOdiwzMT/9izxWlHLK";
 const URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
 
 const phoneNumber = "2347074428929";
