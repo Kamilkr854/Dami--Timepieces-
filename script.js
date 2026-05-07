@@ -48,14 +48,29 @@ function toggleMenu() {
     const menu = document.getElementById("sideMenu");
     menu.style.width = menu.style.width === "250px" ? "0" : "250px";
 }
-
-function showSection(id) {
-    document.getElementById('admin-panel').classList.add('hidden');
-    document.getElementById('storefront').classList.add('hidden');
-    document.getElementById(id).classList.remove('hidden');
-    toggleMenu();
-    renderWatches(watches);
+function adminLogin() {
+    const password = prompt("Enter Admin Password:");
+    
+    if (password === adminPass) {
+        // 1. Hide the storefront
+        document.getElementById('storefront').classList.add('hidden');
+        
+        // 2. Show the admin panel
+        const adminPanel = document.getElementById('admin-panel');
+        adminPanel.classList.remove('hidden');
+        
+        // 3. Close the hamburger menu automatically
+        toggleMenu(); 
+        
+        // 4. Refresh the grid to show delete buttons
+        renderWatches(watches); 
+        
+        alert("Access Granted. Welcome back, Dami.");
+    } else {
+        alert("Incorrect password. Access denied.");
+    }
 }
+
 
 // CART LOGIC
 function openCart() {
