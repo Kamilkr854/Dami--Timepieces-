@@ -10,39 +10,58 @@
 <body>
 
     <header>
-        <h1>DAMI & CO.</h1>
-        <p class="tagline">CURATED WATCHES</p>
-        <button class="admin-btn-trigger" onclick="toggleAdmin()">Admin Portal</button>
+        <div class="nav-top">
+            <div class="menu-icon" onclick="toggleMenu()">☰</div>
+            <h1>DAMI & CO.</h1>
+            <div class="cart-icon" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+        </div>
+
+        <div id="sideMenu" class="side-menu">
+            <span class="close-btn" onclick="toggleMenu()">&times;</span>
+            <a href="#" onclick="showSection('storefront')">Home</a>
+            <a href="#" onclick="toggleAdmin()">Admin Portal</a>
+            <a href="#" onclick="openCart()">View Cart</a>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search watches...">
+            <button onclick="searchWatches()">Search</button>
+        </div>
     </header>
 
     <section id="admin-panel" class="hidden">
         <div class="admin-container">
             <h2>Inventory Management</h2>
             <div class="admin-form">
-                <input type="text" id="watchName" placeholder="Watch Name (e.g. Rolex Datejust)">
-                <input type="number" id="watchPrice" placeholder="Price in Naira">
-                <input type="text" id="watchImage" placeholder="Image Link (from ImgBB)">
+                <input type="text" id="watchName" placeholder="Watch Name">
+                <input type="number" id="watchPrice" placeholder="Price (Naira)">
+                <input type="text" id="watchImage" placeholder="Image Link">
                 <select id="watchCategory">
+                    <option value="All">All Categories</option>
                     <option value="G-Shock">G-Shock</option>
                     <option value="Luxury">Luxury</option>
                     <option value="Sport">Sport</option>
-                    <option value="Classic">Classic</option>
                 </select>
                 <button onclick="saveProduct()" class="save-btn">Submit to Cloud</button>
-                <button class="back-btn" onclick="toggleAdmin()">Back to Store</button>
+                <button class="back-btn" onclick="showSection('storefront')">Close Admin</button>
             </div>
         </div>
     </section>
 
     <section id="storefront">
         <div id="watchGrid" class="grid"></div>
-        
-        <div class="checkout-bar">
-            <button onclick="checkout()" class="whatsapp-btn">
-                Checkout via WhatsApp
-            </button>
-        </div>
     </section>
+
+    <div id="cartModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart()">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cartItems"></div>
+            <hr>
+            <p>Total: <span id="cartTotal">₦0</span></p>
+            <button onclick="checkout()" class="whatsapp-btn">Order on WhatsApp</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
