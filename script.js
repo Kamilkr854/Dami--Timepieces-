@@ -101,7 +101,51 @@ function removeFromCart(index) {
     openCart();
 }
 
-// CLOUD SAVE & DELETE (Keep your existing saveProduct and deleteProduct logic here)
-// ... [Insert the saveProduct and deleteProduct functions from previous messages here] ...
+async function saveProduct() {
+    const name = document.getElementById('watchName').value;
+    const price = document.getElementById('watchPrice').value;
+    const image = document.getElementById('watchImage').value;
+    // Make sure this ID 'watchCategory' exists in your HTML select tag!
+    const category = document.getElementById('watchCategory').value;
+
+    if (!name || !price || !image) {
+        return alert("Please fill all fields!");
+    }
+
+    const updatedList = [...watches, { 
+        name, 
+        price: parseInt(price), 
+        image, 
+        category 
+    }];
+
+    try {
+        const response = await fetch(URL, {
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY,
+                "X-Bin-Versioning": "false"
+            },
+            body: JSON.stringify({ watches: updatedList })
+        });
+
+        if (response.ok) {
+            alert("Success! Watch added to Cloud.");
+            watches = updatedList;
+            renderWatches(watches); // Refresh the display
+            
+            // Clear the inputs
+            document.getElementById('watchName').value = "";
+            document.getElementById('watchPrice').value = "";
+            document.getElementById('watchImage').value = "";
+        } else {
+            alert("Cloud rejected the save. Check your API Key.");
+        }
+    } catch (err) {
+        alert("Network error. Check your data connection.");
+    }
+}
+
 
 loadWatches();
