@@ -97,7 +97,6 @@ async function deleteProduct(index) {
     }
     }
 
-
 // --- 3. UI LOGIC ---
 
 function renderWatches() {
@@ -123,27 +122,27 @@ function renderWatches() {
     });
 }
 
-
 function toggleAdmin() {
-    const adminPanel = document.getElementById('admin-panel');
+    const adminSection = document.getElementById('admin-panel');
     const storefront = document.getElementById('storefront');
 
-    if (adminPanel.classList.contains('hidden')) {
-        const pass = prompt("Admin Password:");
-        if (pass === adminPass) {
-            adminPanel.classList.remove('hidden');
+    if (adminSection.classList.contains('hidden')) {
+        const password = prompt("Enter Admin Password:");
+        if (password === adminPass) {
+            adminSection.classList.remove('hidden');
             storefront.classList.add('hidden');
-            renderWatches(); // Refresh to show delete buttons
+            // THIS LINE IS THE KEY: It forces the screen to redraw with Delete buttons
+            renderWatches(); 
         } else {
-            alert("Wrong Password");
+            alert("Access Denied.");
         }
     } else {
-        adminPanel.classList.add('hidden');
+        adminSection.classList.add('hidden');
         storefront.classList.remove('hidden');
-        renderWatches(); // Refresh to hide delete buttons
+        // Redraw to remove Delete buttons for security
+        renderWatches(); 
     }
 }
-
 
 // --- 4. CART & WHATSAPP ---
 
