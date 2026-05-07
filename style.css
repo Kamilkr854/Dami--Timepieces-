@@ -69,3 +69,32 @@ button { padding: 16px; border: none; border-radius: 8px; font-weight: bold; cur
 
 .admin-btn-trigger { background: none; color: #ccc; font-size: 0.6rem; margin-top: 15px; border: 1px solid #eee; padding: 5px 10px; }
         
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  50% { transform: translateX(5px) rotate(5deg); }
+  75% { transform: translateX(-5px) rotate(-5deg); }
+  100% { transform: translateX(0); }
+}
+
+.animate-shake {
+  animation: shake 0.4s ease-in-out;
+}
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.menu-links {
+  flex-grow: 1; /* Pushes the founder tag to the bottom */
+}
+
+.founder-tag {
+  padding: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #555;
+      }
