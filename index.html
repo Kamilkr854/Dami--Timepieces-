@@ -3,51 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dami & Co. | Luxury Timepieces</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Dami & Co. | Curated Watches</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom Shake Animation */
+        @keyframes shake {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.2) rotate(-10deg); }
+            50% { transform: scale(1.2) rotate(10deg); }
+            75% { transform: scale(1.2) rotate(-10deg); }
+            100% { transform: scale(1); }
+        }
+        .animate-shake { animation: shake 0.4s ease-in-out; }
+
+        /* Menu Transition */
+        #side-menu { transition: transform 0.3s ease-in-out; }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 font-sans text-gray-900">
 
-    <header>
-        <h1>DAMI & CO.</h1>
-        <p class="tagline">CURATED WATCHES</p>
-        <button class="admin-btn-trigger" onclick="toggleAdmin()">Admin Portal</button>
-    </header>
+    <header class="bg-white border-b sticky top-0 z-40 p-4">
+        <div class="max-w-6xl mx-auto flex flex-col items-center gap-4">
+            <div class="flex justify-between items-center w-full">
+                <button onclick="toggleMenu()" class="text-2xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
 
-    <header>
-  <h1>DAMI & CO.</h1>
-  <div class="search-container">
-    <input type="text" placeholder="Search G-shock...">
-    <button type="submit">🔍</button> </div>
-</header>
+                <div class="text-center">
+                    <h1 class="text-2xl font-serif tracking-widest uppercase">Dami & Co.</h1>
+                    <p class="text-xs text-gray-400 tracking-tighter">CURATED WATCHES</p>
+                </div>
 
-<div class="product-grid">
-</div>
-    
-    <section id="admin-panel" class="hidden">
-        <div class="admin-container">
-            <h2>Inventory Management</h2>
-            <div class="admin-form">
-                <input type="text" id="watchName" placeholder="Watch Name">
-                <input type="number" id="watchPrice" placeholder="Price (Naira)">
-                <input type="text" id="watchImage" placeholder="Direct Image Link (ImgBB)">
-                <select id="watchCategory">
-                    <option value="G-Shock">G-Shock</option>
-                    <option value="Luxury">Luxury</option>
-                    <option value="Sport">Sport</option>
-                </select>
-                <button onclick="saveProduct()" class="save-btn">Submit to Cloud</button>
-                <button class="back-btn" onclick="toggleAdmin()">Back to Store</button>
+                <div class="w-10"></div>
+            </div>
+
+            <div class="relative w-full max-w-md">
+                <input type="text" placeholder="Search for watches..." 
+                    class="w-full pl-4 pr-12 py-2 border border-gray-200 rounded-full focus:outline-none focus:ring-1 focus:ring-black transition">
+                <button class="absolute right-2 top-1/2 -translate-y-1/2 bg-black text-white p-1.5 rounded-full px-4 text-sm">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
             </div>
         </div>
-    </section>
+    </header>
 
-    <section id="storefront">
-        <div id="watchGrid" class="grid">
-            </div>
+    <div id="side-menu" class="fixed top-0 left-0 h-full w-72 bg-white shadow-2xl z-50 transform -translate-x-full flex flex-col">
+        <div class="p-6 flex justify-between items-center border-b">
+            <span class="font-bold">Navigation</span>
+            <button onclick="toggleMenu()" class="text-xl">&times;</button>
+        </div>
         
-        <div class="checkout-bar">
-            <button onclick="checkout()" class="whatsapp-btn">
-                Checkout via WhatsApp
+        <nav class="flex-grow p-6 space-y-6">
+            <div class="space-y-3">
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold">Menu</p>
+                <a href="#" class="block text-lg hover:text-gray-500">Home</a>
+                <a href="#" class="block text-lg hover:text-gray-500">Admin Portal</a>
+                <a href="#" onclick="toggleMenu()" class="block text-lg hover:text-gray-500">View Cart</a>
+            </div>
+
+            <div class="space-y-3">
+                <p class="text-xs text-gray-400 uppercase tracking-widest font-bold">Inventory</p>
+                <a href="#" class="block text-gray-600 hover:text-black">Luxury (Rolex)</a>
+                <a href="#" class="block text-gray-600 hover:text-black">Digital (G-Shock)</a>
+                <a href="#" class="block text-gray-600 hover:text-black">Stainless Steel</a>
+                <a href="#" class="block text-gray-600 hover:text-black">Minimalist</a>
+            </div>
+        </nav>
+
+        <div class="p-6 border-t bg-gray-50">
+            <p class="text-xs text-gray-400 uppercase mb-1">Founder</p>
+            <p class="text-sm font-semibold text-gray-800">Abdulkalid Damilola Raheem</p>
+        </div>
+    </div>
+
+    <div id="floating-cart" class="fixed bottom-6 right-6 z-50">
+        <button class="bg-black text-white w-16 h-16 rounded-full shadow-xl flex items-center justify-center relative hover:scale-110 transition">
+            <i class="fa-solid fa-cart-shopping text-xl"></i>
+            <span class="absolute -top-1 -right-1 bg-yellow-500 text-black text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-white">0</span>
+        </button>
+    </div>
+
+    <main class="p-6 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-4 rounded-2xl shadow-sm border text-center">
+                <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=400" alt="Watch" class="mx-auto rounded-lg mb-4">
+                <h3 class="font-bold text-xl">Gshock (green)</h3>
+                <p class="text-yellow-600 font-bold mb-4">₦30,000</p>
+                <button onclick="addToCart()" class="bg-gray-100 px-8 py-2 rounded-lg font-semibold hover:bg-gray-200 transition">Add to Cart</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black opacity-50 z-40 hidden"></div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('side-menu');
+            const overlay = document.getElementById('overlay');
+            menu.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function addToCart() {
+            const cart = document.getElementById('floating-cart');
+            // Trigger Shake Animation
+            cart.classList.add('animate-shake');
+            
+            // Remove animation class after it finishes so it can be re-triggered
+            setTimeout(() => {
+                cart.classList.remove('animate-shake');
+            }, 400);
+
+            // Here you would add your logic to update the cart count in your database/state
+            alert("Added to cart!");
+        }
+    </script>
+</body>
+    </html>
     
