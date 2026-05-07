@@ -15,6 +15,16 @@
         <button class="admin-btn-trigger" onclick="toggleAdmin()">Admin Portal</button>
     </header>
 
+    <header>
+  <h1>DAMI & CO.</h1>
+  <div class="search-container">
+    <input type="text" placeholder="Search G-shock...">
+    <button type="submit">🔍</button> </div>
+</header>
+
+<div class="product-grid">
+</div>
+    
     <section id="admin-panel" class="hidden">
         <div class="admin-container">
             <h2>Inventory Management</h2>
@@ -40,29 +50,4 @@
         <div class="checkout-bar">
             <button onclick="checkout()" class="whatsapp-btn">
                 Checkout via WhatsApp
-            </button>
-        </div>
-    </section>
-
-    <script src="script.js"></script>
-</body>
-</html>
-<header class="p-4 border-b">
-  <div class="flex justify-between items-center">
-    <button id="menu-toggle">
-      <svg>...</svg> </button>
-
-    <h1 class="text-xl font-bold">DAMI & CO.</h1>
-
-    <div class="w-6"></div> 
-  </div>
-
-  <div class="mt-4">
-    <input type="text" placeholder="Search watches..." class="w-full p-2 border rounded-lg">
-  </div>
-</header>
-
-<nav id="mobile-menu" class="hidden">
-  <a href="/admin">Admin Portal</a>
-  <a href="/products">All Watches</a>
-</nav>
+    
